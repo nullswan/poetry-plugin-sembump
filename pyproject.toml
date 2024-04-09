@@ -5,6 +5,7 @@ description = "Bump the version of a poetry project dependencies."
 authors = ["nullswan <dev@nullswan.io>"]
 license = "MIT"
 repository = "https://github.com/nullswan/poetry-plugin-sembump"
+readme = "README.md"
 
 packages = [{ include = "sembump", from = "src" }]
 
