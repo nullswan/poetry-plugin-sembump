@@ -57,7 +57,7 @@ def update_dependencies(
             continue
 
         latest_version = pypi_get_latest_package_version(package)
-        if not latest_version or latest_version == current_version:
+        if not latest_version or latest_version <= current_version:
             continue
 
         print(f"Updating {package}: {current_version} -> {latest_version}")
