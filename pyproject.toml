@@ -1,0 +1,50 @@
+[tool.poetry]
+name = "poetry-plugin-sembump"
+version = "1.0.0"
+description = "Bump the version of a poetry project dependencies."
+authors = ["nullswan <dev@nullswan.io>"]
+license = "MIT"
+repository = "https://github.com/nullswan/poetry-plugin-sembump"
+
+packages = [{ include = "sembump", from = "src" }]
+
+[tool.poetry.plugins."poetry.application.plugin"]
+bump = "sembump.plugins:SembumpPlugin"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+poetry = "^1.5.0"
+
+[tool.poetry.group.dev.dependencies]
+ruff = "0.3.5"
+mypy = "1.9.0"
+black = { version = "24.3.0", allow-prereleases = true }
+
+[tool.mypy]
+enable_error_code = ["ignore-without-code", "redundant-expr", "truthy-bool"]
+explicit_package_bases = true
+files = ["src"]
+mypy_path = "src"
+namespace_packages = true
+show_error_codes = true
+strict = true
+
+[tool.ruff.lint.flake8-quotes]
+docstring-quotes = "double"
+inline-quotes = "single"
+
+[tool.ruff.lint.pylint]
+max-args = 4
+max-branches = 5
+max-statements = 5
+
+[tool.ruff.lint.mccabe]
+max-complexity = 6
+
+[tool.ruff]
+indent-width = 2
+line-length = 80
+
+[[tool.mypy.overrides]]
+module = ['cleo.*']
+ignore_missing_imports = true
