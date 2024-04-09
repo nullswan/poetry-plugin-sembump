@@ -1,6 +1,6 @@
-class UnknownVersion(Exception):
+class UnknownVersionError(Exception):
     pass
 
 
-class UnprocessableProject(Exception):
+class UnprocessableProjectError(Exception):
     pass

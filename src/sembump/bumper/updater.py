@@ -4,7 +4,7 @@ import tomlkit
 import tomlkit.exceptions
 import tomlkit.items
 
-from sembump.bumper.exceptions import UnprocessableProject
+from sembump.bumper.exceptions import UnprocessableProjectError
 from sembump.bumper.resolver import pypi_get_latest_package_version
 
 DependenciesT = tomlkit.items.Table
@@ -19,7 +19,7 @@ def load_dependencies(
         for key in dependency_path:
             dependencies = dependencies[key]  # type: ignore[assignment]
     except tomlkit.exceptions.TOMLKitError as e:
-        raise UnprocessableProject("Failed to load dependencies") from e
+        raise UnprocessableProjectError("Failed to load dependencies") from e
 
     return dependencies
 
