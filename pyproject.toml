@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "poetry-plugin-sembump"
-version = "1.0.0"
+version = "1.0.1"
 description = "Bump the version of a poetry project dependencies."
 authors = ["nullswan <dev@nullswan.io>"]
 license = "MIT"
