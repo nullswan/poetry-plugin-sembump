@@ -44,9 +44,9 @@ class BumpCommand(GroupCommand):
     def handle(self) -> int:
         options = self.parse_options()
 
-        targets = ["pyproject.toml"]
+        targets = {"./pyproject.toml"}
         if options.recursive:
-            targets.extend(find_pyproject_files("."))
+            targets.update(find_pyproject_files("."))
 
         dependency_paths = {
             "dependencies": ["tool", "poetry", "dependencies"],
@@ -54,20 +54,23 @@ class BumpCommand(GroupCommand):
         }
 
         for target in targets:
-            update_versions_in_pyproject(
-                target,
-                dry=options.dry_run,
-                dependency_path=dependency_paths["dependencies"],
-                dependency_type="dependencies",
-            )
-
-            if options.dev_dependencies:
+            try:
                 update_versions_in_pyproject(
                     target,
                     dry=options.dry_run,
-                    dependency_path=dependency_paths["dev_dependencies"],
-                    dependency_type="dev dependencies",
+                    dependency_path=dependency_paths["dependencies"],
+                    dependency_type="dependencies",
                 )
+
+                if options.dev_dependencies:
+                    update_versions_in_pyproject(
+                        target,
+                        dry=options.dry_run,
+                        dependency_path=dependency_paths["dev_dependencies"],
+                        dependency_type="dev dependencies",
+                    )
+            except Exception as e:
+                self.line(f"Error: {e}")
 
         return 0
 
