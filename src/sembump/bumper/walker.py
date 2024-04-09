@@ -1,4 +1,4 @@
-from os import path, walk
+import os
 from typing import Generator
 
 TARGET_FILE = "pyproject.toml"
@@ -7,14 +7,8 @@ TARGET_FILE = "pyproject.toml"
 def find_pyproject_files(
     root_directory: str,
 ) -> Generator[str, None, None]:
-    for root, directory, files in walk(root_directory):
-        for subdirectory in directory:
-            if subdirectory.startswith("."):
-                continue
-            yield from find_pyproject_files(path.join(root, subdirectory))
+    for root, directories, files in os.walk(root_directory, topdown=True):
+        directories[:] = [d for d in directories if not d.startswith(".")]
 
-        if TARGET_FILE not in files:
-            continue
-
-        full_path = path.join(root, TARGET_FILE)
-        yield full_path
+        if TARGET_FILE in files:
+            yield os.path.join(root, TARGET_FILE)
